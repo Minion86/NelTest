@@ -1,0 +1,52 @@
+
+<ion-header>
+    <ion-navbar>
+
+        <ion-title>Devices List</ion-title>
+
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid class="List">
+
+        <!-- s List -->
+        <ion-row >
+            <ion-col col-12 col-md-6 col-lg-4  col-xl-3  *ngFor="let item of data.content"  >
+
+                     <div class="Container">
+                    <ion-grid>
+
+                        <ion-row>
+                            <ion-col col-12>
+                                <p text-left>Connection Status <span>{{item.connected}}</span></p>
+                            </ion-col>
+
+                        </ion-row>
+                        <ion-row>
+
+                            <ion-col col-12>
+                                <p text-left>Location <span>{{item.location}}</span></p>
+                            </ion-col>
+
+                        </ion-row>
+                        <ion-row>
+
+                            <ion-col col-12>
+                                <p text-left>Updated at <span>{{item.updated_at}}</span></p>
+                            </ion-col>
+                        </ion-row>
+
+                    </ion-grid>
+
+                </div>
+
+            </ion-col>
+            <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+                <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer class="searchFooter">
+</ion-footer> 

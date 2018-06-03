@@ -1,0 +1,135 @@
+$mainMarg:8px;
+
+@mixin whiteNormal($height,$lineNum){
+    white-space: normal; 
+    max-height: $height;
+    line-height: $height / $lineNum;
+    display: block;
+    overflow: hidden;
+};
+
+@mixin whiteNoWrap($height){
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    height: $height;
+    line-height: $height;
+    display: block;
+    }
+
+$white: #FFFFFF;
+$white-a: darken($white, 3%);
+$black: rgba(#000000, .8);
+$black-b: lighten($black, 20%);
+
+$theme-color-1: #00e9d5;
+
+$colors: (
+primary:    #488aff,
+secondary:  #32db64,
+danger:     #ef1d38,
+light:      #fff,
+dark:       #222,
+color1:     #c14835,
+color2:     #3e3d3d,
+color3:       #9c9c9c,
+color4:      #eaeaea,
+faceColor:  #4463b1,
+twitterColor:#4e9edc,
+base: $white-a,
+contrast: $black-b,
+walkthrough:(
+base: $theme-color-1,
+contrast: $white
+));
+
+$appFormRadius:3px;
+
+page-home {
+    .show-back-button{
+        display:none!important;
+    }
+    .content-ios{
+        .scroll-content{
+            margin-bottom:0px!important;
+        }
+    }
+}
+
+
+.List{ 
+    padding:$mainMarg/2;
+    .tabs{
+        p{
+            @include whiteNormal(30px,1);
+            &.active{
+                background-color:color($colors,color1);
+                border-radius:$appFormRadius;
+                color:color($colors,light);
+            }
+        }
+    }
+    .col{
+        padding:$mainMarg/2;
+        p{
+            margin:0px;
+            // @include whiteNoWrap($mainHeight - $mainMarg*2);
+            font-weight:500;
+            color: color($colors,color2);
+            &[text-left]{
+                color:color($colors,color1);
+            }
+        }
+    }
+}
+
+
+.Container{
+    background:color($colors,light);
+    padding:$mainMarg/2;
+    border-radius:$appFormRadius;
+    .grid {
+        padding:0px!important;
+        .col{
+            padding:$mainMarg/2;
+            h5{
+                margin:0px;
+                @include whiteNoWrap(30px);
+                color: color($colors,color2);
+                font-weight:600;
+            }
+            p{
+                @include whiteNoWrap(30px);
+                color: color($colors,color3);
+                margin: 0px;
+            }
+        }
+        .row{
+            &:last-of-type{
+                p{
+                    color: color($colors,color2);
+                    height:15px;
+                    line-height:15px;
+                    span{
+                        color:color($colors,color1);
+                    }
+                }
+            }
+        }
+    } 
+    >p{
+        &.someDetails{
+            @include whiteNormal(30px,2);
+            height:auto;
+            padding: 0px $mainMarg/2;
+            margin:$mainMarg/2 0px;
+            word-break: normal;
+            color:color($colors,color3);
+        }
+    } 
+}
+.floppy{
+    color:color($colors,color2);
+    font-size:2.5rem!important;
+    width:100%;
+}
