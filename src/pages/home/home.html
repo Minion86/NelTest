@@ -9,7 +9,23 @@
 
 <ion-content>
     <ion-grid class="List">
+        <ion-row class="tabs">
+            <ion-col col-12 >
+                <p text-left >Order By</p>
+            </ion-col>
 
+        </ion-row>
+        <ion-row class="tabs">
+            <ion-col col-4 >
+                <p text-center (click)="selectTab('location',$event)" [ngClass]="{'active':tab=='location'}">Location</p>
+            </ion-col>
+            <ion-col col-4 >
+                <p text-center (click)="selectTab('parent_location',$event)" [ngClass]="{'active':tab=='parent_location'}">Parent Location</p>
+            </ion-col>
+            <ion-col col-4>
+                <p  text-center (click)="selectTab('connected',$event)" [ngClass]="{'active':tab=='connected'}">Connected</p>
+            </ion-col>
+        </ion-row>
         <!-- s List -->
         <ion-row >
             <ion-col col-12 col-md-6 col-lg-4  col-xl-3  *ngFor="let item of data.content"  >
@@ -36,7 +52,12 @@
                                 <p text-left>Updated at <span>{{item.updated_at}}</span></p>
                             </ion-col>
                         </ion-row>
+                        <ion-row>
 
+                            <ion-col col-12>
+                                <button block ion-button color="color1" (click)="details(item,$event)">Details</button>
+                            </ion-col>
+                        </ion-row>
                     </ion-grid>
 
                 </div>

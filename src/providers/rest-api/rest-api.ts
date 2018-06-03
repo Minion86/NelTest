@@ -15,9 +15,14 @@ export class RestApiProvider {
     constructor(public http: HttpClient) {
     }
 
-    public getDevices(size: number, page: number): Observable<DevicesSearchModel> {
+    public getDevices(size: number, page: number, tab: string): Observable<DevicesSearchModel> {
 
-        return this.http.get(this.apiUrl + "devices?size=" + size + "&page=" + page + "&order=id%3Aasc")
+        let order = 'asc';
+        if (tab == 'connected') {
+            order = 'desc';
+        }
+        console.log(this.apiUrl + "devices?size=" + size + "&page=" + page + "&order=" + tab + "%3A" + order);
+        return this.http.get(this.apiUrl + "devices?size=" + size + "&page=" + page + "&order=" + tab + "%3A" + order)
             .map(res => res as DevicesSearchModel);
 
     }

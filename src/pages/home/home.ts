@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import {RestApiProvider} from '../../providers/rest-api/rest-api';
 import {DevicesSearchModel} from './devices.model';
+import {DevicesModel} from './devices.model';
 
 @IonicPage()
 @Component({
@@ -17,22 +18,23 @@ import {DevicesSearchModel} from './devices.model';
 export class HomePage {
 
 
-    data: DevicesSearchModel=new DevicesSearchModel();
+    data: DevicesSearchModel = new DevicesSearchModel();
     errorMessage: string;
     page = 1;
     size = 25;
     perPage = 0;
     totalData = 0;
     totalPage = 0;
+    tab = '';
 
     constructor(public navCtrl: NavController, public navParams: NavParams, public popoverCtrl: PopoverController, public restApi: RestApiProvider) {
-
+        this.tab = "id";
         this.getDevices();
 
     }
 
     public getDevices() {
-        this.restApi.getDevices(this.size, this.page)
+        this.restApi.getDevices(this.size, this.page, this.tab)
             .subscribe(
                 res => {
                     this.data = res;
@@ -44,14 +46,35 @@ export class HomePage {
     };
 
 
+    selectTab(value, $event) {
+        $event.stopPropagation();
+        this.tab = value;
+        this.page = 1;
+        this.size = 25;
+        this.perPage = 0;
+        this.totalData = 0;
+        this.totalPage = 0;
+        this.data = new DevicesSearchModel();
+        this.getDevices();
+
+    }
+
+
+    details(value, $event) {
+        $event.stopPropagation();
+        this.navCtrl.push("DetailsHomePage", {
+            device: value as DevicesModel
+        });
+
+    }
 
 
     doInfinite(infiniteScroll) {
         this.page = this.page + 1;
         setTimeout(() => {
-            this.restApi.getDevices(this.size, this.page)
+            this.restApi.getDevices(this.size, this.page, this.tab)
                 .subscribe((res: DevicesSearchModel) => {
-                    let dat=res as DevicesSearchModel;
+                    let dat = res as DevicesSearchModel;
                     this.perPage = dat.size;
                     this.totalData = dat.total_elements;
                     this.totalPage = dat.total_pages;
