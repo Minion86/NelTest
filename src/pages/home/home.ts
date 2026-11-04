@@ -38,6 +38,7 @@ export class HomePage {
             .subscribe(
                 res => {
                     this.data = res;
+                    this.sortConnected();
                     console.log(this.data);
                     this.perPage = this.data.size;
                     this.totalData = this.data.total_elements;
@@ -45,6 +46,18 @@ export class HomePage {
                 });
     };
 
+
+    // The API's connected ordering is unreliable, so enforce connected-first locally (stable).
+    private sortConnected() {
+        if (this.tab != 'connected' || !this.data.content) {
+            return;
+        }
+        const isOn = (d: DevicesModel) => String(d.connected) === 'true';
+        this.data.content = this.data.content
+            .map((d, i) => ({d: d, i: i}))
+            .sort((a, b) => (Number(isOn(b.d)) - Number(isOn(a.d))) || (a.i - b.i))
+            .map(x => x.d);
+    }
 
     selectTab(value, $event) {
         $event.stopPropagation();
@@ -81,6 +94,7 @@ export class HomePage {
                     for (let i = 0; i < dat.content.length; i++) {
                         this.data.content.push(dat.content[i]);
                     }
+                    this.sortConnected();
                 }),
                 console.log('Async operation has ended');
             infiniteScroll.complete();
